@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public class MultiplyInstruction extends RTypeInstruction{
 
     public MultiplyInstruction(Instruction instruction) {

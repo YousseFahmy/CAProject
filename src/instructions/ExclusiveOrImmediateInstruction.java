@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public class ExclusiveOrImmediateInstruction extends ITypeInstruction{
 
     public ExclusiveOrImmediateInstruction(Instruction instruction) {

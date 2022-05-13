@@ -1,4 +1,6 @@
-package instructions;
+package memory;
+
+import exceptions.FilletException;
 
 public class Instruction extends Word{
 
@@ -12,6 +14,10 @@ public class Instruction extends Word{
 
     public String getOpcode(){
         return super.binaryContent.substring(0, 4);
+    }
+
+    public int execute(){
+        throw new FilletException();
     }
     
 }

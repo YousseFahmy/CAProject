@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public class MoveToRegisterInstruction extends ITypeInstruction{
 
     public MoveToRegisterInstruction(Instruction instruction) {

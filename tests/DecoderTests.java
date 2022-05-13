@@ -1,10 +1,9 @@
-package tests;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Test;
 
 import instructions.*;
+import memory.Instruction;
 import translators.Decoder;
 
 public class DecoderTests {
@@ -19,6 +18,11 @@ public class DecoderTests {
         Instruction instruction = new Instruction(instructionString);
         Instruction decodedInstruction = Decoder.translate(instruction);
         assertTrue(decodedInstruction instanceof AddInstruction);
+        
+        int result = decodedInstruction.execute();
+
+        assertEquals(result, 0);
+
     }
 
 }

@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public class SubtractInstruction extends RTypeInstruction {
 
     public SubtractInstruction(Instruction instruction) {

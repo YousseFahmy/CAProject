@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public class MoveImmediateInstruction extends ITypeInstruction{
 
     public MoveImmediateInstruction(Instruction instruction) {

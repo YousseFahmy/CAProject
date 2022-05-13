@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public abstract class JTypeInstruction extends Instruction {
 
     private int address;

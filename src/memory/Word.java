@@ -1,10 +1,14 @@
-package instructions;
+package memory;
 import translators.BinaryDecimalTranslator;
 
 public abstract class Word {
     private static final int BITS_PER_WORD = 32;
     
     String binaryContent; //Default Access
+
+    public Word(){
+        this.setContent(0);
+    }
 
     public Word(int decimalValue){
         this.setContent(decimalValue);

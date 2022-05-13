@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public class JumpIfEqualInstruction extends ITypeInstruction{
 
     public JumpIfEqualInstruction(Instruction instruction) {

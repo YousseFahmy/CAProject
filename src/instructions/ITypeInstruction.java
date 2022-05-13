@@ -1,5 +1,7 @@
 package instructions;
 
+import memory.Instruction;
+
 public abstract class ITypeInstruction extends Instruction {
 
     private int r1;
