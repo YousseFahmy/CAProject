@@ -1,15 +1,19 @@
 package memory;
 
+import java.util.ArrayList;
+
 public class RegisterFile {
-    
-    private static final String registerFilePath = "";
 
     private static RegisterFile instance;
 
+    private ArrayList<Register> registers;
+
     private RegisterFile(){
-        // instantiaste registers
-        // read registerFile contents
-        // 
+        this.registers = new ArrayList<>(33);
+        
+        for(int i = 0; i < 33; i++){
+            registers.add(new Register());
+        }
     }
 
     public static RegisterFile getInstance(){
@@ -18,19 +22,14 @@ public class RegisterFile {
     }
 
     public int getRegisterDecimalContent(int registerNumber){
-        return 0; //TODO
+        return registers.get(registerNumber).getValue();
     }
 
     public String getRegisterBinaryContent(int registerNumber){
-        return ""; //TODO
+        return registers.get(registerNumber).getBinaryValue();
     }
 
     public void setRegisterContent(int registerNumber, int decimalValue){
-        // TODO
+        registers.get(registerNumber).setValue(decimalValue);
     }
-
-    public void setRegisterContent(int registerNumber, String binaryValue){
-        // TODO
-    }
-
 }

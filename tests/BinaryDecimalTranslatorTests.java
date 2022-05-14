@@ -77,40 +77,47 @@ public class BinaryDecimalTranslatorTests {
         @Test
         void negativePaddingThrowsException(){
             String binaryNumber = "10010";
-            assertThrows(IllegalArgumentException.class, () -> {BinaryDecimalTranslator.padNumber(binaryNumber, -2);});
+            assertThrows(IllegalArgumentException.class, () -> {BinaryDecimalTranslator.padUnsignedNumber(binaryNumber, -2);});
         }
 
         @Test
         void paddingLessThanNumberLengthThrowsException(){
             String binaryNumber = "10010";
-            assertThrows(IllegalArgumentException.class, () -> {BinaryDecimalTranslator.padNumber(binaryNumber, 4);});
+            assertThrows(IllegalArgumentException.class, () -> {BinaryDecimalTranslator.padUnsignedNumber(binaryNumber, 4);});
         }
 
         @Test
         void digitsEqualToNumberLengthReturnsSame(){
             String binaryNumber = "10010";
-            String paddedNumber = BinaryDecimalTranslator.padNumber(binaryNumber, binaryNumber.length());
+            String paddedNumber = BinaryDecimalTranslator.padUnsignedNumber(binaryNumber, binaryNumber.length());
             assertEquals(binaryNumber, paddedNumber);
         }
 
         @Test
         void digitsGreaterThanNumberLengthReturnsCorrect(){
             String binaryNumber = "10010";
-            String paddedNumber = BinaryDecimalTranslator.padNumber(binaryNumber, 6);
+            String paddedNumber = BinaryDecimalTranslator.padSignedNumber(binaryNumber, 6);
             assertEquals("110010", paddedNumber);
+        }
+
+        @Test
+        void padUnsigned(){
+            String binaryNumber = "111";
+            String paddedNumber = BinaryDecimalTranslator.padUnsignedNumber(binaryNumber, 5);
+            assertEquals("00111", paddedNumber);
         }
 
         @Test
         void padZeros(){
             String binaryNumber = "010";
-            String paddedNumber = BinaryDecimalTranslator.padNumber(binaryNumber, 6);
+            String paddedNumber = BinaryDecimalTranslator.padSignedNumber(binaryNumber, 6);
             assertEquals("000010", paddedNumber);
         }
     
         @Test
         void padOnes(){
             String binaryNumber = "101";
-            String paddedNumber = BinaryDecimalTranslator.padNumber(binaryNumber, 6);
+            String paddedNumber = BinaryDecimalTranslator.padSignedNumber(binaryNumber, 6);
             assertEquals("111101", paddedNumber);
         }
     }

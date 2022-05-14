@@ -4,10 +4,10 @@ import java.util.Set;
 
 import exceptions.FilletException;
 import exceptions.InvalidInstructionOpcodeException;
-
 import instructions.*;
 import memory.Instruction;
 import memory.RegisterFile;
+import memory.Word;
 
 public abstract class Decoder {
 
@@ -17,7 +17,8 @@ public abstract class Decoder {
 
     private static RegisterFile registerFile = RegisterFile.getInstance();
 
-    public static Instruction translate(Instruction instruction){
+    public static Instruction translate(Word instructionWord){
+        Instruction instruction = new Instruction(instructionWord.getBinaryContent());
         String instructionOpcode = instruction.getOpcode();
         if(isRType(instructionOpcode)) return decodeRType(instruction);
         if(isIType(instructionOpcode)) return decodeIType(instruction);
@@ -96,7 +97,7 @@ public abstract class Decoder {
         decodedInstruction.setR2(r2Contents);
 
         String immediate = decodedInstruction.getBinaryContent().substring(14);
-        int immediateDecimal = BinaryDecimalTranslator.ParseBinaryUnsigned(immediate);
+        int immediateDecimal = BinaryDecimalTranslator.ParseBinarySigned(immediate);
         decodedInstruction.setImmediate(immediateDecimal);
 
         return decodedInstruction;

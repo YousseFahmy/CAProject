@@ -10,8 +10,4 @@ public class Data extends Word {
         super(decimalContent);
     }
 
-    public Data (String binaryContent){
-        super(binaryContent);
-    }
-
 }

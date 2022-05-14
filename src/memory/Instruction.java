@@ -13,7 +13,7 @@ public class Instruction extends Word{
     }
 
     public String getOpcode(){
-        return super.binaryContent.substring(0, 4);
+        return super.content.substring(0, 4);
     }
 
     public int execute(){

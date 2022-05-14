@@ -11,7 +11,7 @@ public class Register {
         this.value.setContent(newValue);
     }
 
-    public int getDecimalValue(){
+    public int getValue(){
         return this.value.getDecimalContent();
     }
 
