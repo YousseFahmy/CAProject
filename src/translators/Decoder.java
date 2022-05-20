@@ -11,7 +11,7 @@ import memory.Word;
 
 public abstract class Decoder {
 
-    private static final Set<Integer> RTypeOpcodes = Set.of(0, 1, 2, 4, 5, 8, 9);
+    private static final Set<Integer> RTypeOpcodes = Set.of(0, 1, 2, 5, 8, 9);
     private static final Set<Integer> ITypeOpcodes = Set.of(3, 4, 6, 10, 11);
     private static final Set<Integer> JTypeOpcodes = Set.of(7);
 
@@ -19,37 +19,34 @@ public abstract class Decoder {
 
     public static Instruction translate(Word instructionWord){
         Instruction instruction = new Instruction(instructionWord.getBinaryContent());
-        String instructionOpcode = instruction.getOpcode();
+        int instructionOpcode = instruction.getOpcode();
         if(isRType(instructionOpcode)) return decodeRType(instruction);
         if(isIType(instructionOpcode)) return decodeIType(instruction);
         if(isJType(instructionOpcode)) return decodeJType(instruction);
         throw new FilletException();
     }
 
-    private static boolean isRType(String opcode){
-        int opcodeDecimal = BinaryDecimalTranslator.ParseBinaryUnsigned(opcode);
-        return RTypeOpcodes.contains(opcodeDecimal);
+    private static boolean isRType(int opcode){
+        return RTypeOpcodes.contains(opcode);
     }
 
-    private static boolean isIType(String opcode){
-        int opcodeDecimal = BinaryDecimalTranslator.ParseBinaryUnsigned(opcode);
-        return ITypeOpcodes.contains(opcodeDecimal);
+    private static boolean isIType(int opcode){
+        return ITypeOpcodes.contains(opcode);
     }
 
-    private static boolean isJType(String opcode){
-        int opcodeDecimal = BinaryDecimalTranslator.ParseBinaryUnsigned(opcode);
-        return JTypeOpcodes.contains(opcodeDecimal);
+    private static boolean isJType(int opcode){
+        return JTypeOpcodes.contains(opcode);
     }
 
     private static Instruction decodeRType(Instruction instruction) {
         RTypeInstruction decodedInstruction;
         switch(instruction.getOpcode()){
-            case "0000": decodedInstruction = new AddInstruction(instruction); break;
-            case "0001": decodedInstruction =  new SubtractInstruction(instruction); break;
-            case "0010": decodedInstruction =  new MultiplyInstruction(instruction); break;
-            case "0101": decodedInstruction =  new AndInstruction(instruction); break;
-            case "1000": decodedInstruction =  new LogicalShiftLeftInstruction(instruction); break;
-            case "1001": decodedInstruction =  new LogicalShiftRightInstruction(instruction); break;
+            case 0: decodedInstruction = new AddInstruction(instruction); break;
+            case 1: decodedInstruction =  new SubtractInstruction(instruction); break;
+            case 2: decodedInstruction =  new MultiplyInstruction(instruction); break;
+            case 5: decodedInstruction =  new AndInstruction(instruction); break;
+            case 8: decodedInstruction =  new LogicalShiftLeftInstruction(instruction); break;
+            case 9: decodedInstruction =  new LogicalShiftRightInstruction(instruction); break;
             default: throw new InvalidInstructionOpcodeException();
         }
 
@@ -78,11 +75,11 @@ public abstract class Decoder {
     private static Instruction decodeIType(Instruction instruction) {
         ITypeInstruction decodedInstruction;
         switch(instruction.getOpcode()){
-            case "0011": decodedInstruction = new ExclusiveOrImmediateInstruction(instruction); break;
-            case "0100": decodedInstruction =  new JumpIfEqualInstruction(instruction); break;
-            case "0110": decodedInstruction =  new ExclusiveOrImmediateInstruction(instruction); break;
-            case "1010": decodedInstruction =  new MoveToRegisterInstruction(instruction); break;
-            case "1011": decodedInstruction =  new MoveToMemoryInstruction(instruction); break;
+            case 3: decodedInstruction = new ExclusiveOrImmediateInstruction(instruction); break;
+            case 4: decodedInstruction =  new JumpIfEqualInstruction(instruction); break;
+            case 6: decodedInstruction =  new ExclusiveOrImmediateInstruction(instruction); break;
+            case 10: decodedInstruction =  new MoveToRegisterInstruction(instruction); break;
+            case 11: decodedInstruction =  new MoveToMemoryInstruction(instruction); break;
             default: throw new InvalidInstructionOpcodeException();
         }
 
@@ -106,7 +103,7 @@ public abstract class Decoder {
     private static Instruction decodeJType(Instruction instruction) {
         JTypeInstruction decodedInstruction;
         switch(instruction.getOpcode()){
-            case "0111": decodedInstruction = new JumpInstruction(instruction); break;
+            case 7: decodedInstruction = new JumpInstruction(instruction); break;
             default: throw new InvalidInstructionOpcodeException();
         }
 

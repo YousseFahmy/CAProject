@@ -12,8 +12,10 @@ public class Instruction extends Word{
         super(binaryValue);
     }
 
-    public String getOpcode(){
-        return super.content.substring(0, 4);
+    public int getOpcode(){
+        int opCodeMask = 0b11110000000000000000000000000000;
+        int opcode = (super.getDecimalContent() & opCodeMask) >> 28;
+        return opcode;
     }
 
     public int execute(){
