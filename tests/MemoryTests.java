@@ -1,16 +1,16 @@
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import exceptions.AddressOutOfBoundsException;
 import memory.Memory;
 import memory.Word;
 
 public class MemoryTests {
-    
+
     @Test
-    public void putThreeInAddressTen(){
+    void putThreeInAddressTen() {
         Memory memory = Memory.getInstance();
         memory.setContentOfMemoryAddress(10, 3);
         Word content = memory.getContentOfMemoryAddress(10);
@@ -20,7 +20,7 @@ public class MemoryTests {
     }
 
     @Test
-    public void putNegativeThreeInAddressTwelve(){
+    void putNegativeThreeInAddressTwelve() {
         Memory memory = Memory.getInstance();
         memory.setContentOfMemoryAddress(12, -3);
         Word content = memory.getContentOfMemoryAddress(12);
@@ -30,7 +30,7 @@ public class MemoryTests {
     }
 
     @Test
-    public void address5000ThrowsAddressOutOfBoundsException(){
+    void address5000ThrowsAddressOutOfBoundsException() {
         Memory memory = Memory.getInstance();
         assertThrows(AddressOutOfBoundsException.class, () -> {
             memory.getContentOfMemoryAddress(5000);

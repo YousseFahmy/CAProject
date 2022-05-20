@@ -2,22 +2,24 @@ package memory;
 
 import exceptions.FilletException;
 
-public class Instruction extends Word{
+public class Instruction extends Word {
 
     public Instruction(int decimalValue) {
         super(decimalValue);
     }
 
-    public Instruction(String binaryValue){
+    public Instruction(String binaryValue) {
         super(binaryValue);
     }
 
-    public String getOpcode(){
-        return super.content.substring(0, 4);
+    public int getOpcode() {
+        int opCodeMask = 0b11110000000000000000000000000000;
+        int opcode = (super.getDecimalContent() & opCodeMask) >>> 28;
+        return opcode;
     }
 
-    public int execute(){
+    public int execute() {
         throw new FilletException();
     }
-    
+
 }

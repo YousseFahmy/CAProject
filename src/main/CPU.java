@@ -44,6 +44,7 @@ public class CPU {
         // get PC value
         // get Memory at PC value
         // increment PC
+        return null;
     }
 
     public Instruction decode(Word fetchedInstruction){
