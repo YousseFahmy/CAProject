@@ -22,7 +22,7 @@ public class CPU {
         this.memory = Memory.getInstance();
         this.clock = Clock.getInstance();
 
-        // TODO read, parse, and store code in memory 
+        CodeParser.readAndParse(codeFilePath);
     }
 
     public CPU getInstance(){
@@ -40,11 +40,10 @@ public class CPU {
     }
 
     public Word fetch(){
-        // TODO
-        // get PC value
-        // get Memory at PC value
-        // increment PC
-        return null;
+        int programCounter = registerFile.getRegisterDecimalContent(0);
+        Word fetchedInstruction = memory.getContentOfMemoryAddress(programCounter);
+        registerFile.setRegisterContent(0, ++programCounter);
+        return fetchedInstruction;
     }
 
     public Instruction decode(Word fetchedInstruction){

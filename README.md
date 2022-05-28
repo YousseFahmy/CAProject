@@ -9,19 +9,19 @@
 - Instruction Hierarchy
 - Binary Instruction Decoder
 - Binary-Decimal Converter
+- Assembly to Binary Parser
 
 ### Datapath
+- Fetch
 - Decode
 - Execute
 
 ## Remaining Items
-- Assembly to Binary Parser
 - CPU
 - Jump Instruction Execution
 - Pipelining
-- Pipelining Hazards
+- Pipelining Hazards (Bonus)
 
 ### Datapath
-- Fetch
 - Memory (memory methods are done)
 - Write Back (register file methods are done)
