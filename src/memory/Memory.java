@@ -19,7 +19,15 @@ public class Memory {
     }
 
     public static Memory getInstance(){
-        return instance == null ? new Memory() : instance;
+        if(instance == null) instance = new Memory();
+        return instance;
+    }
+
+    public void printContent(){
+        System.out.println("####### MEMORY ######");
+        for(int i = 0; i < 8; i++){
+            System.out.println("M["+i+"]: " + getContentOfMemoryAddress(i).getBinaryContent());
+        }
     }
 
     public Word getContentOfMemoryAddress(int address){

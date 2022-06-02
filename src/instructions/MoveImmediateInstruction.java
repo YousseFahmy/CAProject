@@ -6,11 +6,13 @@ public class MoveImmediateInstruction extends ITypeInstruction{
 
     public MoveImmediateInstruction(Instruction instruction) {
         super(instruction);
+        this.needsWriteBack = true;
     }
 
     @Override
     public int execute() {
-        return this.getImmediate();
+        this.executionResult = this.getImmediate();
+        return this.executionResult;
     }
     
 }

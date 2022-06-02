@@ -5,11 +5,11 @@ public class Clock {
     private static Clock instance;
 
     private int tick;
-    private ActiveStage currentStage;
+    private ClockState currentState;
 
     private Clock(){
-        this.tick  = 0;
-        this.currentStage = ActiveStage.FETCH;
+        this.tick  = 1;
+        this.currentState = ClockState.FETCH;
     }
 
     public static Clock getInstance(){
@@ -19,14 +19,14 @@ public class Clock {
 
     public void nextTick(){
         this.tick++;
-        this.currentStage = this.currentStage == ActiveStage.FETCH ? ActiveStage.MEMORY : ActiveStage.FETCH;
+        this.currentState = this.currentState == ClockState.FETCH ? ClockState.MEMORY : ClockState.FETCH;
     }
 
     public int getTick() {
         return tick;
     }
 
-    public ActiveStage getCurrentStage() {
-        return currentStage;
+    public ClockState getCurrentStage() {
+        return currentState;
     }  
 }

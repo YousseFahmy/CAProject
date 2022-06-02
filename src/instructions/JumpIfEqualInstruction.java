@@ -10,7 +10,8 @@ public class JumpIfEqualInstruction extends ITypeInstruction{
 
     @Override
     public int execute() {
-        return this.getR1() == this.getR2() ? this.getImmediate() : 0;
+        this.executionResult = this.getR1Contents() == this.getR2Contents() ? this.getImmediate() : 0;
+        return this.executionResult;
     }
     
 }

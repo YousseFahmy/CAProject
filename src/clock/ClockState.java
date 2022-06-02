@@ -1,6 +1,6 @@
 package clock;
 
-public enum ActiveStage {
+public enum ClockState {
     FETCH,
     MEMORY
 }

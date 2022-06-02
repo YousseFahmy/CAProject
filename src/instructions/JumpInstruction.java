@@ -10,7 +10,8 @@ public class JumpInstruction extends JTypeInstruction {
 
     @Override
     public int execute() {
-        return this.getAddress();
+        this.executionResult = this.getAddress();
+        return this.executionResult;
     }
 
 }

@@ -1,11 +1,17 @@
 package main;
 
+import memory.Memory;
+import memory.RegisterFile;
+
 public class Main {
+
+    private static final String codeFilePath = "src/assemblyFiles/program1.txt";
+
     public static void main(String[] args) {
-        // Read code file
-        // Create CPU
-        // Run CPU
-        // Print Register File
-        // Print Memory
+        CPU cpu = CPU.getInstance();
+        CodeParser.readAndParse(codeFilePath);
+        cpu.run();
+        RegisterFile.getInstance().printContent();
+        Memory.getInstance().printContent();
     }
 }

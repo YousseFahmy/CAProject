@@ -6,11 +6,13 @@ public class AndInstruction extends RTypeInstruction{
 
     public AndInstruction(Instruction instruction) {
         super(instruction);
+        this.needsWriteBack = true;
     }
 
     @Override
     public int execute() {
-        return this.getR2() & this.getR1();
+        this.executionResult = this.getR2Contents() & this.getR1Contents();
+        return this.executionResult;
     }
 
     

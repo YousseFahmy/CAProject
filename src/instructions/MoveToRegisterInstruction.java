@@ -6,11 +6,14 @@ public class MoveToRegisterInstruction extends ITypeInstruction{
 
     public MoveToRegisterInstruction(Instruction instruction) {
         super(instruction);
+        this.needsMemory = true;
+        this.needsWriteBack = true;
     }
 
     @Override
     public int execute() {
-        return this.getR2() + this.getImmediate();
+        this.executionResult = this.getR2Contents() + this.getImmediate();
+        return this.executionResult;
     }
     
 }

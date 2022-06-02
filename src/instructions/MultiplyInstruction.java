@@ -6,11 +6,13 @@ public class MultiplyInstruction extends RTypeInstruction{
 
     public MultiplyInstruction(Instruction instruction) {
         super(instruction);
+        this.needsWriteBack = true;
     }
 
     @Override
     public int execute() {
-        return this.getR2() * this.getR3();
+        this.executionResult = this.getR2Contents() * this.getR3Contents();
+        return this.executionResult;
     }
     
 }

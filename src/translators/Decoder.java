@@ -74,15 +74,18 @@ public abstract class Decoder {
 
         int r1 = parseR1(decodedInstruction);
         int r1Contents = registerFile.getRegisterDecimalContent(r1);
-        decodedInstruction.setR1(r1Contents);
+        decodedInstruction.setR1(r1);
+        decodedInstruction.setR1Contents(r1Contents);
 
         int r2 = parseR2(decodedInstruction);
         int r2Contents = registerFile.getRegisterDecimalContent(r2);
-        decodedInstruction.setR2(r2Contents);
+        decodedInstruction.setR2(r2);
+        decodedInstruction.setR2Contents(r2Contents);
 
         int r3 = parseR3(decodedInstruction);
         int r3Contents = registerFile.getRegisterDecimalContent(r3);
-        decodedInstruction.setR3(r3Contents);
+        decodedInstruction.setR3(r3);
+        decodedInstruction.setR3Contents(r3Contents);
 
         int shamt = parseShamt(decodedInstruction);
         decodedInstruction.setShamt(shamt);
@@ -114,11 +117,13 @@ public abstract class Decoder {
 
         int r1 = parseR1(decodedInstruction);
         int r1Contents = registerFile.getRegisterDecimalContent(r1);
-        decodedInstruction.setR1(r1Contents);
+        decodedInstruction.setR1(r1);
+        decodedInstruction.setR1Contents(r1Contents);
 
         int r2 = parseR2(decodedInstruction);
         int r2Contents = registerFile.getRegisterDecimalContent(r2);
-        decodedInstruction.setR2(r2Contents);
+        decodedInstruction.setR2(r2);
+        decodedInstruction.setR2Contents(r2Contents);
 
         int immediate = parseImmediate(decodedInstruction);
         decodedInstruction.setImmediate(immediate);

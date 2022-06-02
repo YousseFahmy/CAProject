@@ -3,13 +3,20 @@ package memory;
 import exceptions.FilletException;
 
 public class Instruction extends Word {
+    protected int executionResult;
+    protected boolean needsWriteBack;
+    protected boolean needsMemory;
 
     public Instruction(int decimalValue) {
         super(decimalValue);
+        this.needsMemory = false;
+        this.needsWriteBack = false;
     }
 
     public Instruction(String binaryValue) {
         super(binaryValue);
+        this.needsMemory = false;
+        this.needsWriteBack = false;
     }
 
     public int getOpcode() {
@@ -20,6 +27,18 @@ public class Instruction extends Word {
 
     public int execute() {
         throw new FilletException();
+    }
+
+    public int getExecutionResult(){
+        return this.executionResult;
+    }
+
+    public boolean needsWriteBack(){
+        return needsWriteBack;
+    }
+
+    public boolean needsMemory(){
+        return needsMemory;
     }
 
 }
