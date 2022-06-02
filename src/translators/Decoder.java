@@ -1,10 +1,27 @@
 package translators;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import exceptions.FilletException;
 import exceptions.InvalidInstructionOpcodeException;
-import instructions.*;
+import instructions.AddInstruction;
+import instructions.AndInstruction;
+import instructions.ExclusiveOrImmediateInstruction;
+import instructions.ITypeInstruction;
+import instructions.JTypeInstruction;
+import instructions.JumpIfEqualInstruction;
+import instructions.JumpInstruction;
+import instructions.LogicalShiftLeftInstruction;
+import instructions.LogicalShiftRightInstruction;
+import instructions.MoveImmediateInstruction;
+import instructions.MoveToMemoryInstruction;
+import instructions.MoveToRegisterInstruction;
+import instructions.MultiplyInstruction;
+import instructions.NoOpInstruction;
+import instructions.RTypeInstruction;
+import instructions.SubtractInstruction;
 import memory.Instruction;
 import memory.RegisterFile;
 import memory.Word;
@@ -22,6 +39,9 @@ public abstract class Decoder {
     private static final int ADDRESS_BIT_MASK = 0b00001111111111111111111111111111;
 
     private static RegisterFile registerFile = RegisterFile.getInstance();
+    private static Entry<Integer, Integer> lastInstruction = new SimpleEntry<Integer,Integer>(0,0);
+    private static Entry<Integer, Integer> beforeLastInstruction = new SimpleEntry<Integer,Integer>(0,0);
+
 
     public static Instruction translate(Word instructionWord) {
         Instruction instruction = new Instruction(instructionWord.getBinaryContent());
@@ -76,22 +96,24 @@ public abstract class Decoder {
         }
 
         int r1 = parseR1(decodedInstruction);
-        int r1Contents = registerFile.getRegisterDecimalContent(r1);
+        int r1Contents = getRegisterContent(r1);
         decodedInstruction.setR1(r1);
         decodedInstruction.setR1Contents(r1Contents);
 
         int r2 = parseR2(decodedInstruction);
-        int r2Contents = registerFile.getRegisterDecimalContent(r2);
+        int r2Contents = getRegisterContent(r2);
         decodedInstruction.setR2(r2);
         decodedInstruction.setR2Contents(r2Contents);
 
         int r3 = parseR3(decodedInstruction);
-        int r3Contents = registerFile.getRegisterDecimalContent(r3);
+        int r3Contents = getRegisterContent(r3);
         decodedInstruction.setR3(r3);
         decodedInstruction.setR3Contents(r3Contents);
 
         int shamt = parseShamt(decodedInstruction);
         decodedInstruction.setShamt(shamt);
+
+        shiftRegistersLeft();
 
         return decodedInstruction;
     }
@@ -119,17 +141,19 @@ public abstract class Decoder {
         }
 
         int r1 = parseR1(decodedInstruction);
-        int r1Contents = registerFile.getRegisterDecimalContent(r1);
+        int r1Contents = getRegisterContent(r1);
         decodedInstruction.setR1(r1);
         decodedInstruction.setR1Contents(r1Contents);
 
         int r2 = parseR2(decodedInstruction);
-        int r2Contents = registerFile.getRegisterDecimalContent(r2);
+        int r2Contents = getRegisterContent(r2);
         decodedInstruction.setR2(r2);
         decodedInstruction.setR2Contents(r2Contents);
 
         int immediate = parseImmediate(decodedInstruction);
         decodedInstruction.setImmediate(immediate);
+
+        shiftRegistersLeft();
 
         return decodedInstruction;
     }
@@ -148,6 +172,25 @@ public abstract class Decoder {
         decodedInstruction.setAddress(address);
 
         return decodedInstruction;
+    }
+
+    private static int getRegisterContent(int registerNumber){
+        if(lastInstruction.getKey() == registerNumber){
+            return lastInstruction.getValue();
+        }else if(beforeLastInstruction.getKey() == registerNumber){
+            return beforeLastInstruction.getValue();
+        }else{
+            return registerFile.getRegisterDecimalContent(registerNumber);
+        }
+    } 
+
+    public static void setLastInstruction(int registerNumber, int registerValue){
+        lastInstruction = new SimpleEntry<>(registerNumber, registerValue);
+    }
+
+    private static void shiftRegistersLeft(){
+        beforeLastInstruction = lastInstruction;
+        beforeLastInstruction = new SimpleEntry<>(0,0);
     }
 
     private static int parseR1(Instruction decodedInstruction) {

@@ -5,7 +5,7 @@ import memory.RegisterFile;
 
 public class Main {
 
-    private static final String codeFilePath = "assemblyFiles/program5.txt";
+    private static final String codeFilePath = "assemblyFiles/program6.txt";
 
     public static void main(String[] args) {
         CPU cpu = CPU.getInstance();
