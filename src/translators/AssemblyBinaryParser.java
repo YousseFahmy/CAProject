@@ -4,6 +4,7 @@ import java.util.Set;
 
 import exceptions.FilletException;
 import exceptions.InvalidInstructionOpcodeException;
+import instructions.NoOpInstruction;
 
 public class AssemblyBinaryParser {
     private static Set<String> RTypeOperations = Set.of("ADD", "SUB", "MUL", "AND", "LSL", "LSR");
@@ -26,6 +27,8 @@ public class AssemblyBinaryParser {
             int address = Integer.parseInt(splitInstruction[1]);
             return buildJTypeInstruction(opcode, address);
         }
+
+        if(opcodeString.equals("noOp")) return NoOpInstruction.NO_OP_INSTRUCTION_BINARY;
 
         throw new InvalidInstructionOpcodeException();
     }
