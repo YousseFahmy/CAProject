@@ -4,6 +4,8 @@ import clock.Clock;
 import clock.ClockState;
 import instructions.ITypeInstruction;
 import instructions.JTypeInstruction;
+import instructions.JumpIfEqualInstruction;
+import instructions.JumpInstruction;
 import instructions.MoveToMemoryInstruction;
 import instructions.MoveToRegisterInstruction;
 import instructions.NoOpInstruction;
@@ -39,7 +41,6 @@ public class CPU {
     }
 
     public void run(){
-        // TODO
         do{
             runTick();
         }while(fetchResult.getDecimalContent() != 0);
@@ -47,18 +48,18 @@ public class CPU {
         for(int i = 0; i < 4; i++){
             runTick();
         }
-        System.out.println("DONE!!!!!!!!!!!!!!!");
+        System.out.println("Total Ticks: " + (clock.getTick() - 1));
     }
 
     private void runTick() {
         if(clock.getCurrentStage() == ClockState.FETCH){
             writeBack(executeResult);
-            executeResult = execute(decodeResult);
+            executeControl(decodeResult);
             decodeResult = decode(fetchResult);
             fetchResult = fetch();
         }else{
             memoryAccess(executeResult);
-            executeControl(decodeResult);
+            executeResult = execute(decodeResult);
         }
         clock.nextTick();
     }
@@ -82,15 +83,22 @@ public class CPU {
     }
 
     public void executeControl(Instruction decodedInstruction){
-        if(!(decodedInstruction instanceof JTypeInstruction)) return;
-        // SET PC TO EXECUTION RESULT
+        if(!(decodedInstruction instanceof JTypeInstruction) && !(decodedInstruction instanceof JumpIfEqualInstruction)) return;
+        if(decodedInstruction instanceof JumpInstruction){
+            //jump to exec
+            JumpInstruction controlInstruction = (JumpInstruction) decodedInstruction;
+            registerFile.setRegisterContent(PC_REGISTER_NUMBER, controlInstruction.getExecutionResult());
+            flushPipeline();
+        }else{
+            JumpIfEqualInstruction controlInstruction = (JumpIfEqualInstruction) decodedInstruction;
+            if(controlInstruction.getExecutionResult() == 0) return;
+            int currentPC = registerFile.getRegisterDecimalContent(PC_REGISTER_NUMBER);
+            registerFile.setRegisterContent(PC_REGISTER_NUMBER, currentPC + controlInstruction.getExecutionResult());
+            flushPipeline();
+        }
     }
 
     public void memoryAccess(Instruction executedInstruction){
-        // TODO
-        // if decodedInstruction needs memoryAccess
-        // access memory with execution result
-
         if(!executedInstruction.needsMemory()) return;
         if(executedInstruction instanceof MoveToRegisterInstruction){
             MoveToRegisterInstruction memInstruction = (MoveToRegisterInstruction) executedInstruction;
@@ -123,4 +131,8 @@ public class CPU {
         }
     }
 
+    private void flushPipeline(){
+        decodeResult = NoOpInstruction.get();
+        fetchResult = NoOpInstruction.get();
+    }
 }

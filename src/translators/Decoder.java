@@ -26,6 +26,9 @@ public abstract class Decoder {
     public static Instruction translate(Word instructionWord) {
         Instruction instruction = new Instruction(instructionWord.getBinaryContent());
         int instructionOpcode = instruction.getOpcode();
+
+        if(instruction.getDecimalContent() == NoOpInstruction.NO_OP_INSTRUCTION_BINARY) return NoOpInstruction.get();
+
         if (isRType(instructionOpcode))
             return decodeRType(instruction);
         if (isIType(instructionOpcode))

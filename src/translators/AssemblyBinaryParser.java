@@ -13,7 +13,10 @@ public class AssemblyBinaryParser {
 
     public static int translate(String assemblyInstruction){
         String[] splitInstruction = assemblyInstruction.split(" ");
-        String opcodeString = splitInstruction[0];
+        String opcodeString = splitInstruction[0].toUpperCase();
+
+        if(opcodeString.equals("NOOP")) return NoOpInstruction.NO_OP_INSTRUCTION_BINARY;
+
         if(RTypeOperations.contains(opcodeString)){
             return translateRTypeInstruction(splitInstruction);
         }
@@ -27,9 +30,7 @@ public class AssemblyBinaryParser {
             int address = Integer.parseInt(splitInstruction[1]);
             return buildJTypeInstruction(opcode, address);
         }
-
-        if(opcodeString.equals("noOp")) return NoOpInstruction.NO_OP_INSTRUCTION_BINARY;
-
+        
         throw new InvalidInstructionOpcodeException();
     }
 

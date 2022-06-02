@@ -1,8 +1,8 @@
 # Tests MOVI and RTypes
 MOVI R1 4
 MOVI R2 5
-ADD R0 R1 R0 #NoOp
-ADD R0 R1 R0 #NoOp
+NoOp
+NoOp
 MUL R3 R1 R2
 LSL R4 R2 2
 LSR R5 R1 1
