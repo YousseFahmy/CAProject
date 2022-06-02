@@ -1,3 +1,4 @@
+# Tests JEQ
 MOVI R1 5
 MOVI R2 4
 NoOp

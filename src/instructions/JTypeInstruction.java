@@ -12,6 +12,13 @@ public abstract class JTypeInstruction extends Instruction {
 
     public abstract int execute();
 
+    @Override
+    public void printParameters(){
+        System.out.println("- Parameters");
+        System.out.println("-- Type: " + this.getClass().getSimpleName());
+        System.out.println("-- Address: " + address);
+    }
+
     public int getAddress() {
         return address;
     }

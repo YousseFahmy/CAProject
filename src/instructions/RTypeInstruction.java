@@ -16,7 +16,21 @@ public abstract class RTypeInstruction extends Instruction {
         super(instruction.getBinaryContent());
     }
 
+    @Override
     public abstract int execute();
+
+    @Override
+    public void printParameters(){
+        System.out.println("- Parameters");
+        System.out.println("-- Type: " + this.getClass().getSimpleName());
+        System.out.println("-- R1: " + r1);
+        System.out.println("-- R1 Contents: " + r1Contents);
+        System.out.println("-- R2: " + r2);
+        System.out.println("-- R2 Contents: " + r2Contents);
+        System.out.println("-- R3: " + r3);
+        System.out.println("-- R3 Contents: " + r3Contents);
+        System.out.println("-- SHAMT: " + shamt);
+    }
 
     public int getR1() {
         return r1;

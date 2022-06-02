@@ -17,6 +17,17 @@ public abstract class ITypeInstruction extends Instruction {
 
     public abstract int execute();
 
+    @Override
+    public void printParameters(){
+        System.out.println("- Parameters");
+        System.out.println("-- Type: " + this.getClass().getSimpleName());
+        System.out.println("-- R1: " + r1);
+        System.out.println("-- R1 Contents: " + r1Contents);
+        System.out.println("-- R2: " + r2);
+        System.out.println("-- R2 Contents: " + r2Contents);
+        System.out.println("-- Immediate: " + immediate);
+    }
+
     public int getR1() {
         return r1;
     }

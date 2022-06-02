@@ -29,6 +29,10 @@ public class Instruction extends Word {
         throw new FilletException();
     }
 
+    public void printParameters(){
+        throw new FilletException();
+    }
+
     public int getExecutionResult(){
         return this.executionResult;
     }

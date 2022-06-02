@@ -1,3 +1,4 @@
+# Tests JMP
 MOVI R1 30
 JMP 3
 MOVI R3 50 

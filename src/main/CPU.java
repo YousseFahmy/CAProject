@@ -25,7 +25,7 @@ public class CPU {
     private Memory memory;
     private Clock clock;
 
-    private Word fetchResult;
+    private Word fetchResult = NoOpInstruction.get();
     private Instruction decodeResult = NoOpInstruction.get();
     private Instruction executeResult = NoOpInstruction.get();
 
@@ -48,41 +48,60 @@ public class CPU {
         for(int i = 0; i < 4; i++){
             runTick();
         }
-        System.out.println("Total Ticks: " + (clock.getTick() - 1));
     }
 
     private void runTick() {
+        System.out.println("------------ Cycle: " + clock.getTick());
         if(clock.getCurrentStage() == ClockState.FETCH){
+            printFetchCycleAnalysis();
             writeBack(executeResult);
             executeControl(decodeResult);
             decodeResult = decode(fetchResult);
             fetchResult = fetch();
         }else{
+            printMemoryCycleAnalysis();
             memoryAccess(executeResult);
             executeResult = execute(decodeResult);
         }
         clock.nextTick();
     }
 
-    public Word fetch(){
+    private void printFetchCycleAnalysis() {
+        System.out.println("Fetching instruction at " + registerFile.getRegisterDecimalContent(PC_REGISTER_NUMBER));
+        System.out.println("Decoding " + fetchResult.getBinaryContent());
+        System.out.println("Executing " + decodeResult.getBinaryContent());
+        decodeResult.printParameters();
+        System.out.println("Writing Back " + executeResult.getBinaryContent());
+        executeResult.printParameters();
+    }
+    
+    private void printMemoryCycleAnalysis() {
+        System.out.println("Decoding " + fetchResult.getBinaryContent());
+        System.out.println("Executing " + decodeResult.getBinaryContent());
+        decodeResult.printParameters();
+        System.out.println("Accessing Memory " + executeResult.getBinaryContent());
+        executeResult.printParameters();
+    }
+
+    private Word fetch(){
         int programCounter = registerFile.getRegisterDecimalContent(PC_REGISTER_NUMBER);
         Word fetchedInstruction = memory.getContentOfMemoryAddress(programCounter);
         registerFile.setRegisterContent(PC_REGISTER_NUMBER, ++programCounter);
         return fetchedInstruction;
     }
 
-    public Instruction decode(Word fetchedInstruction){
+    private Instruction decode(Word fetchedInstruction){
         if(fetchedInstruction == null) return NoOpInstruction.get();
         return Decoder.translate(fetchedInstruction);
     }
 
-    public Instruction execute(Instruction decodedInstruction){
+    private Instruction execute(Instruction decodedInstruction){
         if(decodedInstruction == null) return null;
         decodedInstruction.execute();
         return decodedInstruction;
     }
 
-    public void executeControl(Instruction decodedInstruction){
+    private void executeControl(Instruction decodedInstruction){
         if(!(decodedInstruction instanceof JTypeInstruction) && !(decodedInstruction instanceof JumpIfEqualInstruction)) return;
         if(decodedInstruction instanceof JumpInstruction){
             //jump to exec
@@ -98,7 +117,7 @@ public class CPU {
         }
     }
 
-    public void memoryAccess(Instruction executedInstruction){
+    private void memoryAccess(Instruction executedInstruction){
         if(!executedInstruction.needsMemory()) return;
         if(executedInstruction instanceof MoveToRegisterInstruction){
             MoveToRegisterInstruction memInstruction = (MoveToRegisterInstruction) executedInstruction;
@@ -108,25 +127,31 @@ public class CPU {
         }else{
             MoveToMemoryInstruction memInstruction = (MoveToMemoryInstruction) executedInstruction;
             int address = memInstruction.getR2Contents() + memInstruction.getImmediate();
-            int content = memInstruction.getExecutionResult();
-            memory.setContentOfMemoryAddress(address, content);
+            int oldContent = memory.getContentOfMemoryAddress(address).getDecimalContent();
+            int newContent = memInstruction.getExecutionResult();
+            System.out.println("Changing address " + address + " from " + oldContent + " to " + newContent);
+            memory.setContentOfMemoryAddress(address, newContent);
         }
     }
 
-    public void writeBack(Instruction executedInstruction){
+    private void writeBack(Instruction executedInstruction){
         if(executedInstruction == null) return;
         if(! executedInstruction.needsWriteBack()) return;
         if(executedInstruction instanceof RTypeInstruction){
             RTypeInstruction castInstruction = (RTypeInstruction) executedInstruction;
             int destinationRegister = castInstruction.getR1();
+            int oldValue = registerFile.getRegisterDecimalContent(destinationRegister);
             int newValue = castInstruction.getExecutionResult();
             if(destinationRegister == 0) return;
+            System.out.println("Changing R" + destinationRegister + " from " + oldValue + " to " + newValue);
             registerFile.setRegisterContent(destinationRegister, newValue);
         }else{
             ITypeInstruction castInstruction = (ITypeInstruction) executedInstruction;
             int destinationRegister = castInstruction.getR1();
+            int oldValue = registerFile.getRegisterDecimalContent(destinationRegister);
             int newValue = castInstruction.getExecutionResult();
             if(destinationRegister == 0) return;
+            System.out.println("Changing R" + destinationRegister + " from " + oldValue + " to " + newValue);
             registerFile.setRegisterContent(destinationRegister, newValue);
         }
     }

@@ -1,5 +1,8 @@
 package memory;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import exceptions.AddressOutOfBoundsException;
@@ -24,12 +27,14 @@ public class Memory {
     }
 
     public void printContent(){
-        System.out.println("####### MEMORY ######");
-        for(int i = 0; i < 8; i++){
-            System.out.println("M["+i+"]: " + getContentOfMemoryAddress(i).getBinaryContent());
-        }
-        for(int i = 1024; i < 1030; i++){
-            System.out.println("M["+i+"]: " + getContentOfMemoryAddress(i).getBinaryContent());
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("output/memoryFile.txt"))){
+            for(int i = 0; i < MEMORY_SIZE; i++){
+                writer.write("M["+i+"]: " + getContentOfMemoryAddress(i).getBinaryContent());
+                writer.newLine();
+            }
+            System.out.println("Memory Contents Sucessfully Written to output/memoryFile.txt");
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 

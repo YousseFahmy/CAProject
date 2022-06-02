@@ -22,9 +22,8 @@ public class RegisterFile {
     }
 
     public void printContent(){
-        // TODO implement
-        System.out.println("###### REGISTERS ######");
-        for(int i = 0; i < 16; i++){
+        System.out.println("PC: " + getRegisterDecimalContent(32));
+        for(int i = 0; i < 32; i++){
             System.out.println("R"+i+": " + getRegisterDecimalContent(i));
         }
     }
@@ -40,6 +39,4 @@ public class RegisterFile {
     public void setRegisterContent(int registerNumber, int decimalValue){
         registers.get(registerNumber).setValue(decimalValue);
     }
-
-    
 }
