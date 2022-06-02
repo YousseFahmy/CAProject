@@ -16,6 +16,7 @@ public class CodeParser {
             int memoryPointer = 0;
 
             while((instructionLine = reader.readLine()) != null){
+                if(instructionLine.charAt(0) == '#') continue;
                 int parsedInstruction = AssemblyBinaryParser.translate(instructionLine);
                 memory.setContentOfMemoryAddress(memoryPointer++, parsedInstruction);
             }

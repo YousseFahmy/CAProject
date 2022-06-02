@@ -28,6 +28,9 @@ public class Memory {
         for(int i = 0; i < 8; i++){
             System.out.println("M["+i+"]: " + getContentOfMemoryAddress(i).getBinaryContent());
         }
+        for(int i = 1024; i < 1030; i++){
+            System.out.println("M["+i+"]: " + getContentOfMemoryAddress(i).getBinaryContent());
+        }
     }
 
     public Word getContentOfMemoryAddress(int address){

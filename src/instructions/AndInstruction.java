@@ -11,7 +11,7 @@ public class AndInstruction extends RTypeInstruction{
 
     @Override
     public int execute() {
-        this.executionResult = this.getR2Contents() & this.getR1Contents();
+        this.executionResult = this.getR2Contents() & this.getR3Contents();
         return this.executionResult;
     }
 

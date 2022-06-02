@@ -4,6 +4,8 @@ import clock.Clock;
 import clock.ClockState;
 import instructions.ITypeInstruction;
 import instructions.JTypeInstruction;
+import instructions.MoveToMemoryInstruction;
+import instructions.MoveToRegisterInstruction;
 import instructions.NoOpInstruction;
 import instructions.RTypeInstruction;
 import memory.Instruction;
@@ -90,7 +92,17 @@ public class CPU {
         // access memory with execution result
 
         if(!executedInstruction.needsMemory()) return;
-        if(!executedInstruction.needsMemory()) return;
+        if(executedInstruction instanceof MoveToRegisterInstruction){
+            MoveToRegisterInstruction memInstruction = (MoveToRegisterInstruction) executedInstruction;
+            int address = memInstruction.getExecutionResult();
+            Word content = memory.getContentOfMemoryAddress(address);
+            memInstruction.setExecutionResult(content.getDecimalContent());
+        }else{
+            MoveToMemoryInstruction memInstruction = (MoveToMemoryInstruction) executedInstruction;
+            int address = memInstruction.getR2Contents() + memInstruction.getImmediate();
+            int content = memInstruction.getExecutionResult();
+            memory.setContentOfMemoryAddress(address, content);
+        }
     }
 
     public void writeBack(Instruction executedInstruction){

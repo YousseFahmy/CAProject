@@ -33,6 +33,10 @@ public class Instruction extends Word {
         return this.executionResult;
     }
 
+    public void setExecutionResult(int newValue){
+        this.executionResult = newValue;
+    }
+
     public boolean needsWriteBack(){
         return needsWriteBack;
     }

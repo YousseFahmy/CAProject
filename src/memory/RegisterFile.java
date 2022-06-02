@@ -24,7 +24,7 @@ public class RegisterFile {
     public void printContent(){
         // TODO implement
         System.out.println("###### REGISTERS ######");
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < 16; i++){
             System.out.println("R"+i+": " + getRegisterDecimalContent(i));
         }
     }
